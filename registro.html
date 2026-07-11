@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TutorBot · Registro de estudiante</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="registro.css">
+</head>
+<body>
+
+  <main class="hoja">
+    <header class="hoja__cabecera">
+      <span class="hoja__indice">TB · 01</span>
+      <h1 class="hoja__titulo">Ficha de inscripción</h1>
+      <p class="hoja__subtitulo">Complétala una vez. TutorBot recordará quién eres en Telegram.</p>
+    </header>
+
+    <form id="form-registro" class="formulario" novalidate>
+
+      <div class="campo">
+        <label for="nombre">Nombre completo</label>
+        <input type="text" id="nombre" name="nombre" placeholder="Ej. Angela Arrivillaga" autocomplete="name" required>
+        <span class="campo__error" data-error-for="nombre"></span>
+      </div>
+
+      <div class="campo">
+        <label for="codigo_estudiante">Código de estudiante</label>
+        <input type="text" id="codigo_estudiante" name="codigo_estudiante" placeholder="Ej. 123456789" inputmode="numeric" required>
+        <span class="campo__error" data-error-for="codigo_estudiante"></span>
+      </div>
+
+      <div class="campo">
+        <label for="telegram_user">ID de Telegram</label>
+        <input type="text" id="telegram_user" name="telegram_user" placeholder="Se completa solo al venir desde el bot" required readonly>
+        <span class="campo__ayuda">Si este campo aparece vacío, vuelve a abrir el enlace desde el chat de TutorBot.</span>
+        <span class="campo__error" data-error-for="telegram_user"></span>
+      </div>
+
+      <button type="submit" class="boton" id="boton-enviar">
+        <span class="boton__texto">Enviar registro</span>
+      </button>
+
+      <p class="estado" id="mensaje-estado" role="status" aria-live="polite"></p>
+    </form>
+  </main>
+
+  <script src="registro.js"></script>
+</body>
+</html>
