@@ -1,8 +1,3 @@
-// ============================================================
-// CONFIGURA AQUI la URL del Webhook de n8n (nodo "Webhook Registro")
-// Ejemplo produccion: https://tu-instancia.app.n8n.cloud/webhook/tutorbot-registro
-// Ejemplo pruebas:    https://tu-instancia.app.n8n.cloud/webhook-test/tutorbot-registro
-// ============================================================
 const N8N_WEBHOOK_URL = "https://TU_INSTANCIA_N8N.app.n8n.cloud/webhook/tutorbot-registro";
 
 document.addEventListener("DOMContentLoaded", () => {
