@@ -1,204 +1,460 @@
-</body>
-</html>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulario de Solicitud con Estados</title>
-    <style>
-        /* 1. Configuración básica y maquetación */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        body {
-            background-color: #f4f7f6;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
+<title>Registro de Materias</title>
 
-        .form-container {
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            width: 100%;
-            max-width: 500px;
-            position: relative; /* Clave para posicionar los mensajes encima si fuera necesario */
-        }
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+}
 
-        .form-container h2 {
-            margin-bottom: 20px;
-            color: #333333;
-            font-size: 24px;
-            text-align: center;
-        }
+body{
+    background:linear-gradient(135deg,#2563eb,#4f46e5);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
 
-        .form-group {
-            margin-bottom: 20px;
-            display: flex;
-            flex-direction: column;
-        }
+.form-container{
+    width:100%;
+    max-width:520px;
+    background:#fff;
+    border-radius:15px;
+    padding:35px;
+    box-shadow:0 15px 35px rgba(0,0,0,.15);
+}
 
-        .form-group label {
-            margin-bottom: 8px;
-            color: #555555;
-            font-weight: 600;
-            font-size: 14px;
-        }
+h2{
+    text-align:center;
+    color:#1f2937;
+    margin-bottom:10px;
+}
 
-        .form-group input, 
-        .form-group textarea {
-            padding: 12px;
-            border: 1px solid #cccccc;
-            border-radius: 6px;
-            font-size: 15px;
-            color: #333333;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-            outline: none;
-        }
+.subtitle{
+    text-align:center;
+    color:#6b7280;
+    margin-bottom:30px;
+    font-size:14px;
+}
 
-        .form-group input:focus, 
-        .form-group textarea:focus {
-            border-color: #007bff;
-            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
-        }
+.form-group{
+    margin-bottom:20px;
+}
 
-        .form-group textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
+label{
+    display:block;
+    margin-bottom:8px;
+    font-weight:600;
+    color:#374151;
+}
 
-        .btn-submit {
-            background-color: #007bff;
-            color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            transition: background-color 0.3s ease;
-            margin-bottom: 15px;
-        }
+input{
+    width:100%;
+    padding:12px 15px;
+    border:1px solid #d1d5db;
+    border-radius:8px;
+    font-size:15px;
+    transition:.3s;
+}
 
-        .btn-submit:hover {
-            background-color: #0056b3;
-        }
+input:focus{
+    outline:none;
+    border-color:#2563eb;
+    box-shadow:0 0 0 3px rgba(37,99,235,.15);
+}
 
-        /* =======================================================
-           2. ESTILOS PARA LOS MENSAJES DE ÉXITO Y ERROR (CSS PURO)
-           ======================================================= */
-        
-        /* Ocultamos los contenedores por defecto */
-        .status-message {
-            display: none;
-            padding: 15px;
-            border-radius: 6px;
-            margin-top: 15px;
-            font-size: 14px;
-            text-align: center;
-            animation: fadeIn 0.4s ease forwards;
-        }
+/* Dropdown */
 
-        /* Estilo específico para Éxito */
-        .status-message.success {
-            background-color: #e6f4ea;
-            border: 1px solid #34a853;
-            color: #137333;
-        }
+.dropdown{
+    position:relative;
+}
 
-        /* Estilo específico para Error */
-        .status-message.error {
-            background-color: #fce8e6;
-            border: 1px solid #ea4335;
-            color: #c5221f;
-        }
+.dropdown-btn{
+    width:100%;
+    padding:13px 15px;
+    border:1px solid #d1d5db;
+    border-radius:8px;
+    background:white;
+    cursor:pointer;
+    text-align:left;
+    font-size:15px;
+    transition:.3s;
+}
 
-        /* El truco del almendruco: Cuando la URL termina en #exito o #error, 
-           el elemento correspondiente se vuelve visible */
-        #exito:target, #error:target {
-            display: block;
-        }
+.dropdown-btn:hover{
+    border-color:#2563eb;
+}
 
-        /* Animación suave para que aparezca el mensaje */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
+.dropdown.active .dropdown-btn{
+    border-color:#2563eb;
+}
+
+.dropdown-content{
+    display:none;
+    position:absolute;
+    width:100%;
+    background:white;
+    border:1px solid #ddd;
+    border-radius:8px;
+    margin-top:6px;
+    box-shadow:0 10px 25px rgba(0,0,0,.12);
+    overflow:hidden;
+    z-index:100;
+}
+
+.dropdown.active .dropdown-content{
+    display:block;
+}
+
+.dropdown-content label{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:12px 15px;
+    cursor:pointer;
+    transition:.2s;
+    margin:0;
+    font-weight:500;
+}
+
+.dropdown-content label:hover{
+    background:#f3f4f6;
+}
+
+.dropdown-content input{
+    width:auto;
+}
+
+/* Botón */
+
+button[type="submit"]{
+    width:100%;
+    border:none;
+    padding:14px;
+    border-radius:8px;
+    background:#2563eb;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+button[type="submit"]:hover{
+    background:#1d4ed8;
+}
+
+button:disabled{
+    background:#9ca3af;
+    cursor:not-allowed;
+}
+
+/* Mensajes */
+
+.status-message{
+    display:none;
+    margin-top:20px;
+    padding:14px;
+    border-radius:8px;
+    text-align:center;
+    font-weight:600;
+}
+
+.success{
+    background:#dcfce7;
+    color:#166534;
+    border:1px solid #22c55e;
+}
+
+.error{
+    background:#fee2e2;
+    color:#991b1b;
+    border:1px solid #ef4444;
+}
+</style>
+
 </head>
 <body>
 
-    <div class="form-container">
-        <h2>Formulario de Contacto</h2>
-        
-        <!-- NOTA: En un entorno real, el 'action' apuntaría a tu servidor. 
-             Para probar el flujo simulado con CSS puro, cambiamos el destino del form. -->
-        <form action="#" method="POST" id="myForm" name="myForm">
-            
-            <div class="form-group">
-                <label for="identificacion">Identificación</label>
-                <input type="text" id="identificacion" name="identificacion" placeholder="Ej: 12345678" required>
-            </div>
+<div class="form-container">
 
-            <div class="form-group">
-                <label for="nombres">Nombres</label>
-                <input type="text" id="nombres" name="nombres" placeholder="Ej: Juan Carlos" required>
-            </div>
+<h2>Registro de Estudiantes</h2>
 
-            <div class="form-group">
-                <label for="apellidos">Apellidos</label>
-                <input type="text" id="apellidos" name="apellidos" placeholder="Ej: Pérez Gómez" required>
-            </div>
+<p class="subtitle">
+Complete el formulario para registrar las materias.
+</p>
 
-            <div class="form-group">
-                <label for="solicitud">Solicitud</label>
-                <textarea id="solicitud" name="solicitud" placeholder="Describe detalladamente tu solicitud aquí..." required></textarea>
-            </div>
-            <input type="hidden" id="chat" name="chat" />
+<form id="registroForm">
 
-            <button type="submit" class="btn-submit">Enviar Solicitud</button>
-        </form>
+<div class="form-group">
+<label>Nombre</label>
+<input
+type="text"
+name="nombre"
+placeholder="Ingrese su nombre"
+required>
+</div>
 
-        <!-- Bloques de respuesta ocultos controlados por CSS -->
-        <div id="exito" class="status-message success">
-            <strong>¡Envío exitoso!</strong> Tu solicitud ha sido procesada correctamente.
-        </div>
+<div class="form-group">
+<label>Correo electrónico</label>
+<input
+type="email"
+name="email"
+placeholder="correo@ejemplo.com"
+required>
+</div>
 
-        <div id="error" class="status-message error">
-            <strong>Hubo un error.</strong> No se pudo enviar el formulario, por favor intenta más tarde.
-        </div>
-    </div>
-    <script>
-        const params = new URLSearchParams(window.location.search);
-        const chat = document.getElementById('chat').value = params.get('chatId');
-        const myForm = document.getElementById('myForm');
-        myForm.addEventListener('submit', async(e) =>{
-            e.preventDefault();
-            const formData = new FormData(myForm);
-            try{
-                const response = await fetch('https://l401n8zb-5678.use2.devtunnels.ms/webhook-test/d7d2dd33-e24c-4e5e-9fe1-5054c3eb629c', {
-                    method: 'POST',
-                    body: formData
-                });
-                window.location.href = '#exito';
-                const result = await response.json();
-                console.log('result:', result);
-            }catch(e){
-                window.location.href = '#error';
-                console.error('Error:', e);
+<div class="form-group">
+
+<label>Materias</label>
+
+<div class="dropdown" id="dropdown">
+
+<button
+type="button"
+class="dropdown-btn"
+id="dropdownBtn">
+
+Seleccione una o más materias ▼
+
+</button>
+
+<div class="dropdown-content">
+
+<label>
+<input type="checkbox" value="Matemáticas">
+Matemáticas
+</label>
+
+<label>
+<input type="checkbox" value="Física">
+Física
+</label>
+
+<label>
+<input type="checkbox" value="Programación">
+Programación
+</label>
+
+<label>
+<input type="checkbox" value="Bases de Datos">
+Bases de Datos
+</label>
+
+<label>
+<input type="checkbox" value="Inglés">
+Inglés
+</label>
+
+<label>
+<input type="checkbox" value="Redacción">
+Redacción
+</label>
+
+</div>
+
+</div>
+
+</div>
+
+<input
+type="hidden"
+name="chat"
+id="chat">
+
+<button
+id="btnEnviar"
+type="submit">
+
+Enviar Registro
+
+</button>
+
+</form>
+
+<div
+id="success"
+class="status-message success">
+
+✅ Registro enviado correctamente.
+
+</div>
+
+<div
+id="error"
+class="status-message error">
+
+❌ Ocurrió un error al enviar el formulario.
+
+</div>
+
+</div>
+
+<script>
+
+const WEBHOOK_URL = "https://TU_WEBHOOK_DE_N8N";
+
+const form = document.getElementById("registroForm");
+const btn = document.getElementById("btnEnviar");
+
+const success = document.getElementById("success");
+const error = document.getElementById("error");
+
+const dropdown = document.getElementById("dropdown");
+const dropdownBtn = document.getElementById("dropdownBtn");
+
+const checkboxes = document.querySelectorAll(".dropdown-content input");
+
+const params = new URLSearchParams(window.location.search);
+
+document.getElementById("chat").value =
+params.get("chatId") || "";
+
+/* Abrir y cerrar menú */
+
+dropdownBtn.addEventListener("click",()=>{
+
+    dropdown.classList.toggle("active");
+
+});
+
+document.addEventListener("click",(e)=>{
+
+    if(!dropdown.contains(e.target)){
+        dropdown.classList.remove("active");
+    }
+
+});
+
+/* Mostrar materias seleccionadas */
+
+function actualizarTexto(){
+
+    const seleccionadas =
+    [...checkboxes]
+    .filter(c=>c.checked)
+    .map(c=>c.value);
+
+    if(seleccionadas.length===0){
+
+        dropdownBtn.innerHTML =
+        "Seleccione una o más materias ▼";
+
+    }else{
+
+        dropdownBtn.innerHTML =
+        seleccionadas.join(", ");
+
+    }
+
+}
+
+checkboxes.forEach(c=>{
+
+    c.addEventListener("change",actualizarTexto);
+
+});
+
+/* Envío */
+
+form.addEventListener("submit",async(e)=>{
+
+    e.preventDefault();
+
+    success.style.display="none";
+    error.style.display="none";
+
+    btn.disabled=true;
+    btn.innerHTML="Enviando...";
+
+    const materias =
+    [...checkboxes]
+    .filter(c=>c.checked)
+    .map(c=>c.value);
+
+    if(materias.length===0){
+
+        alert("Seleccione al menos una materia.");
+
+        btn.disabled=false;
+        btn.innerHTML="Enviar Registro";
+
+        return;
+
+    }
+
+    const formData = new FormData();
+
+    formData.append(
+        "nombre",
+        form.nombre.value
+    );
+
+    formData.append(
+        "email",
+        form.email.value
+    );
+
+    formData.append(
+        "especialidad_materias",
+        JSON.stringify(materias)
+    );
+
+    formData.append(
+        "chat",
+        document.getElementById("chat").value
+    );
+
+    try{
+
+        const response = await fetch(
+            "https://gummy-aerosol-deforest.ngrok-free.dev/webhook-test/4af7cdb9-1012-49d7-9697-2671285aea4f",
+            {
+                method:"POST",
+                body:formData
             }
-        })
-    </script>
+        );
+
+        if(!response.ok){
+
+            throw new Error();
+
+        }
+
+        success.style.display="block";
+
+        form.reset();
+
+        checkboxes.forEach(c=>c.checked=false);
+
+        actualizarTexto();
+
+    }
+    catch(err){
+
+        console.error(err);
+
+        error.style.display="block";
+
+    }
+    finally{
+
+        btn.disabled=false;
+
+        btn.innerHTML="Enviar Registro";
+
+    }
+
+});
+
+</script>
+
 </body>
 </html>
