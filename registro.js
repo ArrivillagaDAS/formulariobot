@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Rellena automáticamente el telegram_user desde el enlace que envía el bot,
   // ej: registro.html?telegram_user=8647960015
   const params = new URLSearchParams(window.location.search);
-  const idDesdeUrl = params.get("telegram_user");
+  const idDesdeUrl = params.get("telegram_user") || params.get("telegramuser");
   if (idDesdeUrl) {
     campoTelegram.value = idDesdeUrl;
   }
