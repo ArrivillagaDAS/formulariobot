@@ -1,4 +1,4 @@
-const N8N_WEBHOOK_URL = "https://TU_INSTANCIA_N8N.app.n8n.cloud/webhook/tutorbot-registro";
+const N8N_WEBHOOK_URL = "https://gummy-aerosol-deforest.ngrok-free.dev/webhook/registro-estudiantes";
 
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("form-registro");
