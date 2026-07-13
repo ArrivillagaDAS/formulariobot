@@ -1,0 +1,204 @@
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Solicitud con Estados</title>
+    <style>
+        /* 1. Configuración básica y maquetación */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f4f7f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .form-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 500px;
+            position: relative; /* Clave para posicionar los mensajes encima si fuera necesario */
+        }
+
+        .form-container h2 {
+            margin-bottom: 20px;
+            color: #333333;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 8px;
+            color: #555555;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group input, 
+        .form-group textarea {
+            padding: 12px;
+            border: 1px solid #cccccc;
+            border-radius: 6px;
+            font-size: 15px;
+            color: #333333;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            outline: none;
+        }
+
+        .form-group input:focus, 
+        .form-group textarea:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .btn-submit {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s ease;
+            margin-bottom: 15px;
+        }
+
+        .btn-submit:hover {
+            background-color: #0056b3;
+        }
+
+        /* =======================================================
+           2. ESTILOS PARA LOS MENSAJES DE ÉXITO Y ERROR (CSS PURO)
+           ======================================================= */
+        
+        /* Ocultamos los contenedores por defecto */
+        .status-message {
+            display: none;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            font-size: 14px;
+            text-align: center;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        /* Estilo específico para Éxito */
+        .status-message.success {
+            background-color: #e6f4ea;
+            border: 1px solid #34a853;
+            color: #137333;
+        }
+
+        /* Estilo específico para Error */
+        .status-message.error {
+            background-color: #fce8e6;
+            border: 1px solid #ea4335;
+            color: #c5221f;
+        }
+
+        /* El truco del almendruco: Cuando la URL termina en #exito o #error, 
+           el elemento correspondiente se vuelve visible */
+        #exito:target, #error:target {
+            display: block;
+        }
+
+        /* Animación suave para que aparezca el mensaje */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>Formulario de Contacto</h2>
+        
+        <!-- NOTA: En un entorno real, el 'action' apuntaría a tu servidor. 
+             Para probar el flujo simulado con CSS puro, cambiamos el destino del form. -->
+        <form action="#" method="POST" id="myForm" name="myForm">
+            
+            <div class="form-group">
+                <label for="identificacion">Identificación</label>
+                <input type="text" id="identificacion" name="identificacion" placeholder="Ej: 12345678" required>
+            </div>
+
+            <div class="form-group">
+                <label for="nombres">Nombres</label>
+                <input type="text" id="nombres" name="nombres" placeholder="Ej: Juan Carlos" required>
+            </div>
+
+            <div class="form-group">
+                <label for="apellidos">Apellidos</label>
+                <input type="text" id="apellidos" name="apellidos" placeholder="Ej: Pérez Gómez" required>
+            </div>
+
+            <div class="form-group">
+                <label for="solicitud">Solicitud</label>
+                <textarea id="solicitud" name="solicitud" placeholder="Describe detalladamente tu solicitud aquí..." required></textarea>
+            </div>
+            <input type="hidden" id="chat" name="chat" />
+
+            <button type="submit" class="btn-submit">Enviar Solicitud</button>
+        </form>
+
+        <!-- Bloques de respuesta ocultos controlados por CSS -->
+        <div id="exito" class="status-message success">
+            <strong>¡Envío exitoso!</strong> Tu solicitud ha sido procesada correctamente.
+        </div>
+
+        <div id="error" class="status-message error">
+            <strong>Hubo un error.</strong> No se pudo enviar el formulario, por favor intenta más tarde.
+        </div>
+    </div>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const chat = document.getElementById('chat').value = params.get('chatId');
+        const myForm = document.getElementById('myForm');
+        myForm.addEventListener('submit', async(e) =>{
+            e.preventDefault();
+            const formData = new FormData(myForm);
+            try{
+                const response = await fetch('https://l401n8zb-5678.use2.devtunnels.ms/webhook-test/d7d2dd33-e24c-4e5e-9fe1-5054c3eb629c', {
+                    method: 'POST',
+                    body: formData
+                });
+                window.location.href = '#exito';
+                const result = await response.json();
+                console.log('result:', result);
+            }catch(e){
+                window.location.href = '#error';
+                console.error('Error:', e);
+            }
+        })
+    </script>
+</body>
+</html>
